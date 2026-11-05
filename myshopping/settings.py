@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'catalogo',
+    'cuentas',
+    'pagos',
+    'pedidos'
 ]
 
 MIDDLEWARE = [
@@ -86,6 +90,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myshopping.wsgi.application'
 
+AUTH_USER_MODEL = 'cuentas.Usuario'
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
