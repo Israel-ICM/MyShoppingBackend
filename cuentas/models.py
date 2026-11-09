@@ -16,3 +16,6 @@ class Cliente(models.Model):
     email = models.EmailField()
     telefono = models.CharField(max_length=20, blank=True)
     direccion = models.CharField(max_length=255, blank=True)
+
+    def __str__(self) -> str:
+        return self.nombre

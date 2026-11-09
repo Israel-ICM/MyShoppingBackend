@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'catalogo',
     'cuentas',
     'pagos',
-    'pedidos'
+    'pedidos',
+    'ubicaciones'
 ]
 
 MIDDLEWARE = [
