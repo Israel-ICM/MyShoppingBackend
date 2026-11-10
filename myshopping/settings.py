@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'cuentas',
     'pagos',
     'pedidos',
-    'ubicaciones'
+    'ubicaciones',
+    'compras',
+    'inventarios'
 ]
 
 MIDDLEWARE = [

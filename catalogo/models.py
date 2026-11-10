@@ -16,12 +16,12 @@ class Producto(models.Model):
     codigo = models.CharField(max_length=50, unique=True)
     nombre = models.CharField(max_length=150)
     descripcion = models.TextField()
-    pais_id = models.ForeignKey(
+    pais = models.ForeignKey(
         Pais,
         on_delete=models.PROTECT,
         related_name='productos'
     )
-    marca_id = models.ForeignKey(
+    marca = models.ForeignKey(
         Marca,
         on_delete=models.PROTECT,
         related_name='productos'
@@ -38,7 +38,7 @@ class Producto(models.Model):
         return self.nombre
 
 class ProductoVideo(models.Model):
-    producto_id = models.ForeignKey(
+    producto = models.ForeignKey(
         Producto,
         on_delete=models.PROTECT,
         related_name='videos_producto'
@@ -49,7 +49,7 @@ class ProductoVideo(models.Model):
         db_table = 'catalogo_producto_video'
 
 class ProductoFoto(models.Model):
-    producto_id = models.ForeignKey(
+    producto = models.ForeignKey(
         Producto,
         on_delete=models.PROTECT,
         related_name='fotos_producto'
@@ -59,3 +59,25 @@ class ProductoFoto(models.Model):
 
     class Meta:
         db_table = 'catalogo_producto_foto'
+
+
+class HistorialPrecio(models.Model):
+    producto = models.ForeignKey(
+        Producto,
+        on_delete=models.CASCADE,
+        related_name="historial_precios"
+    )
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    costo = models.DecimalField(max_digits=10, decimal_places=2)
+    vigente_desde = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'catalogo_historial_precio'
+
+    @property
+    def margen_sobre_costo(self):
+        return (self.precio - self.costo) / self.costo * 100
+
+    @property
+    def margen_bruto(self):
+        return (self.precio - self.costo) / self.precio * 100
