@@ -1,3 +1,10 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = []
+from .views import ProveedorViewSet, CompraViewSet, DetalleCompraViewSet
+
+router = DefaultRouter()
+router.register(r"proveedores", ProveedorViewSet)
+router.register(r"compras", CompraViewSet)
+router.register(r"detalles-compra", DetalleCompraViewSet)
+
+urlpatterns = router.urls

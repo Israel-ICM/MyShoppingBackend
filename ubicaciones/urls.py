@@ -1,3 +1,8 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = []
+from .views import PaisViewSet
+
+router = DefaultRouter()
+router.register(r"paises", PaisViewSet)
+
+urlpatterns = router.urls

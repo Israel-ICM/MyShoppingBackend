@@ -1,3 +1,9 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = []
+from .views import MovimientoStockViewSet, LoteInventarioViewSet
+
+router = DefaultRouter()
+router.register(r"movimientos-stock", MovimientoStockViewSet)
+router.register(r"lotes-inventario", LoteInventarioViewSet)
+
+urlpatterns = router.urls

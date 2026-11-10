@@ -1,3 +1,8 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = []
+from .views import PagoViewSet
+
+router = DefaultRouter()
+router.register(r"pagos", PagoViewSet)
+
+urlpatterns = router.urls
