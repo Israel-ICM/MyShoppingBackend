@@ -12,8 +12,9 @@ class Marca(models.Model):
         return self.nombre
 
 class Producto(models.Model):
+    categorias = models.ManyToManyField(Categoria, related_name='productos')
     codigo = models.CharField(max_length=50, unique=True)
-    nombre = models.CharField(max_length=149)
+    nombre = models.CharField(max_length=150)
     descripcion = models.TextField()
     pais_id = models.ForeignKey(
         Pais,
@@ -35,3 +36,26 @@ class Producto(models.Model):
 
     def __str__(self) -> str:
         return self.nombre
+
+class ProductoVideo(models.Model):
+    producto_id = models.ForeignKey(
+        Producto,
+        on_delete=models.PROTECT,
+        related_name='videos_producto'
+    )
+    url = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'catalogo_producto_video'
+
+class ProductoFoto(models.Model):
+    producto_id = models.ForeignKey(
+        Producto,
+        on_delete=models.PROTECT,
+        related_name='fotos_producto'
+    )
+    url = models.CharField(max_length=255)
+    principal = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'catalogo_producto_foto'
