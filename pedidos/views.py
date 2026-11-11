@@ -7,8 +7,10 @@ from .serializers import PedidoSerializer, DetallePedidoSerializer
 class PedidoViewSet(viewsets.ModelViewSet):
     queryset = Pedido.objects.all()
     serializer_class = PedidoSerializer
+    filterset_fields = ['cliente', 'estado']
 
 
 class DetallePedidoViewSet(viewsets.ModelViewSet):
     queryset = DetallePedido.objects.all()
     serializer_class = DetallePedidoSerializer
+    filterset_fields = ['pedido']
