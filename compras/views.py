@@ -12,8 +12,10 @@ class ProveedorViewSet(viewsets.ModelViewSet):
 class CompraViewSet(viewsets.ModelViewSet):
     queryset = Compra.objects.all()
     serializer_class = CompraSerializer
+    filterset_fields = ['proveedor', 'estado']
 
 
 class DetalleCompraViewSet(viewsets.ModelViewSet):
     queryset = DetalleCompra.objects.all()
     serializer_class = DetalleCompraSerializer
+    filterset_fields = ['compra']
