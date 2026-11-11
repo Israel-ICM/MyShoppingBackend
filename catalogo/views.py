@@ -17,3 +17,4 @@ class MarcaViewSet(viewsets.ModelViewSet):
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
+    filterset_fields = ['categorias', 'marca', 'activo']
