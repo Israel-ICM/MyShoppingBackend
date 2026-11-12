@@ -35,6 +35,15 @@ class Pedido(models.Model):
     def total(self):
         return sum(d.cantidad * d.precio_unitario for d in self.detalles.all()) # pyright: ignore[reportAttributeAccessIssue]
 
+    @property
+    def monto_pagado(self):
+        pagos_completados = self.pagos.filter(estado="CO") # pyright: ignore[reportAttributeAccessIssue]
+        return sum(p.monto for p in pagos_completados)
+
+    @property
+    def saldo_pendiente(self):
+        return self.total - self.monto_pagado
+
 
 class DetallePedido(models.Model):
     pedido = models.ForeignKey(

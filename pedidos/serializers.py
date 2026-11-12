@@ -11,9 +11,11 @@ class DetallePedidoSerializer(serializers.ModelSerializer):
 
 
 class DetallePedidoInlineSerializer(serializers.ModelSerializer):
+    producto_nombre = serializers.CharField(source="producto.nombre", read_only=True)
+
     class Meta:
         model = DetallePedido
-        fields = ["id", "producto", "cantidad", "precio_unitario"]
+        fields = ["id", "producto", "producto_nombre", "cantidad", "precio_unitario"]
         read_only_fields = ["id"]
 
 
@@ -26,11 +28,15 @@ class ClientePedidoSerializer(serializers.Serializer):
 class PedidoSerializer(serializers.ModelSerializer):
     detalles = DetallePedidoInlineSerializer(many=True)
     cliente = ClientePedidoSerializer()
+    region_nombre = serializers.CharField(source="region.nombre", read_only=True, default="")
 
     class Meta:
         model = Pedido
-        fields = ["id", "cliente", "region", "fecha", "observacion", "estado", "total", "detalles"]
-        read_only_fields = ["fecha", "total"]
+        fields = [
+            "id", "cliente", "region", "region_nombre", "fecha", "observacion", "estado",
+            "total", "monto_pagado", "saldo_pendiente", "detalles",
+        ]
+        read_only_fields = ["fecha", "total", "monto_pagado", "saldo_pendiente"]
 
     def create(self, validated_data):
         detalles_data = validated_data.pop("detalles")

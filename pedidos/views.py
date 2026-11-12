@@ -2,6 +2,7 @@ from django.core.mail import send_mail
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 
+from inventarios.services import registrar_movimiento
 from .models import Pedido, DetallePedido
 from .serializers import PedidoSerializer, DetallePedidoSerializer
 
@@ -18,6 +19,13 @@ class PedidoViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         pedido = serializer.save()
+        for detalle in pedido.detalles.all():
+            registrar_movimiento(
+                producto_id=detalle.producto_id,
+                tipo="VT",
+                cantidad=-detalle.cantidad,
+                observacion=f"Pedido #{pedido.id}",
+            )
         if pedido.cliente.email:
             send_mail(
                 subject="Confirmacion de tu pedido - MyShopping",
