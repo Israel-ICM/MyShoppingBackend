@@ -37,3 +37,22 @@ class CompraSerializer(serializers.ModelSerializer):
             for detalle in detalles_data:
                 DetalleCompra.objects.create(compra=compra, **detalle)
         return compra
+
+
+class LoteVencimientoSerializer(serializers.Serializer):
+    detalle = serializers.IntegerField()
+    fecha_vencimiento = serializers.DateField()
+
+
+class RecibirCompraSerializer(serializers.Serializer):
+    lotes = LoteVencimientoSerializer(many=True)
+
+    def validate_lotes(self, value):
+        compra = self.context["compra"]
+        ids_detalles = set(compra.detalles.values_list("id", flat=True))
+        ids_recibidos = {item["detalle"] for item in value}
+        if ids_detalles != ids_recibidos:
+            raise serializers.ValidationError(
+                "Debes indicar la fecha de vencimiento de cada linea de la compra."
+            )
+        return value
