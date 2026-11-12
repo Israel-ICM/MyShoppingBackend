@@ -37,4 +37,8 @@ class MovimientoStock(models.Model):
         blank=True,
         related_name="movimientos"
     )
+    observacion = models.CharField(max_length=255, blank=True)
     creado_en = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.get_tipo_display()} {self.cantidad} - {self.producto.nombre}"
