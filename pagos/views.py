@@ -7,3 +7,4 @@ from .serializers import PagoSerializer
 class PagoViewSet(viewsets.ModelViewSet):
     queryset = Pago.objects.all()
     serializer_class = PagoSerializer
+    filterset_fields = ['pedido', 'estado', 'metodo']
