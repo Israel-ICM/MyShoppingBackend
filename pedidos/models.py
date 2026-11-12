@@ -1,6 +1,7 @@
 from django.db import models
 from catalogo.models import Producto
 from cuentas.models import Cliente
+from ubicaciones.models import Region
 
 class EstadoPedido(models.TextChoices):
     PENDIENTE = "PE", "Pendiente"
@@ -17,7 +18,14 @@ class Pedido(models.Model):
         related_name='pedidos'
     )
     fecha = models.DateTimeField(auto_now_add=True)
-    observacion = models.CharField(max_length=255)
+    region = models.ForeignKey(
+        Region,
+        on_delete=models.PROTECT,
+        related_name='pedidos',
+        null=True,
+        blank=True,
+    )
+    observacion = models.CharField(max_length=255, blank=True)
     estado = models.CharField(
         max_length=2,
         choices=EstadoPedido.choices,
